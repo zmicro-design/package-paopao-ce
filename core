@@ -15,31 +15,26 @@ install() {
   local usr_bin_dir="$PACKAGE_USER_BIN_DIR"
   local tmp_dir="$PACKAGE_TMP_DIR"
 
-  # #
-  # case $platform in
-  # darwin)
-  #   platform="osx"
-  #   ;;
-  # linux) ;;
-
-  # *)
-  #   log::error "[$(timestamp)] unsupport platform: $platform"
-  #   return 1
-  #   ;;
-  # esac
-
-  # case $arch in
-  # arm64) ;;
-
-  # amd64)
-  #   arch="x86_64"
-  #   ;;
-  # *)
-  #   log::error "[$(timestamp)] unsupport arch: $arch"
-  #   return 1
-  #   ;;
-  # esac
-  # #
+  #
+  case $platform in
+  darwin)
+    ;;
+  linux)
+    case $arch in
+    amd64)
+      ;;
+    *)
+      log::error "[$(timestamp)] unsupport linux arch: $arch"
+      return 1
+      ;;
+    esac
+    ;;
+  *)
+    log::error "[$(timestamp)] unsupport platform: $platform"
+    return 1
+    ;;
+  esac
+  #
 
   # template os
   # case $os in
@@ -93,7 +88,7 @@ install() {
   #   https://github.com/rocboss/paopao-ce/releases/download/v0.1.2/paopao-ce-darwin_arm64.zip
   #   https://github.com/rocboss/paopao-ce/releases/download/v0.1.2/paopao-ce-linux_amd64.zip
   # generate url
-  local url="${PACKAGE_CORE_RELEASE_DOWNLOAD}/$PACKAGE_CORE_VERSION/${name}-${platform}-${arch}.zip"
+  local url="${PACKAGE_CORE_RELEASE_DOWNLOAD}/$PACKAGE_CORE_VERSION/${name}-${platform}_${arch}.zip"
   log::debug "[$(timestamp)][package][$name][$kernel][$arch] url: $url, file: ${tmp_file}, tmp_dir: $tmp_dir"
 
   # download
